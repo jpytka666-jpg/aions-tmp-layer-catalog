@@ -1,0 +1,15 @@
+---
+description: Deploy anywhere — install, boot, GREEN; VM and host install rules
+globs: "runtime/host/**"
+alwaysApply: false
+---
+
+# AIONS Deploy
+
+Gate: `install → boot → GREEN` (`validate_install.sh --with-runtime --strict-health`).
+
+- `TMPDIR=/tmp` on guests — never apt/dpkg on CIFS.
+- Prefer **SCP/tar** for repo transfer to VMs; SMB/CIFS is unreliable.
+- Shell scripts for Linux guests: **LF line endings** only.
+- New platform = row in `runtime/docs/PLATFORM_MATRIX.md` + test script.
+- Log deploy runs under `D:\AIONS_DEV\logs\milestone-c-*/`.
