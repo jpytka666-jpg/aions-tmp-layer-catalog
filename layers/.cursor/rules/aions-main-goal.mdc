@@ -1,0 +1,55 @@
+---
+description: AIONS main goal + distance-from-goal — Core manager + Node workers
+alwaysApply: true
+---
+
+# AIONS Main Goal (always visible)
+
+## Cel główny (PL)
+
+**AIONS Core** = manager / planner / pamięć / dispatcher (jeden mózg firmy).  
+**Węzły (Nodes)** = zasoby pracy (capabilities, health, load, permissions) — nie „komputery do czatu”.
+
+To **nie** jest jeden chat AI. To **nie** jest własna dystrybucja Linux na pierwszym miejscu.  
+Ścieżka: **Ubuntu + `install-aions-node` → rejestracja w Core** → model firmy z wieloma workerami (laptop / VM / Docker).
+
+## Main goal (EN, dense)
+
+AIONS Core = central manager (planner, memory/CBMS/Chroma, MCP dispatch, task queue, scheduler, node registry). Nodes = abstract worker resources with capabilities/health/load/permissions — NOT end-user chat endpoints. NOT “custom Linux distro first.” Deploy path: standard Ubuntu → `install-aions-node.sh` → enroll with Core → multi-worker orchestration (firm model).
+
+## Distance from goal (SSOT)
+
+**Single source of truth:** `runtime/docs/AIONS_GOAL_DISTANCE_2026-07-12.md`
+
+- Re-read when phases change, after major milestones, or when planning multi-step work.
+- Update that doc (or a dated successor) when goal % or blockers change materially.
+
+## Snapshot 2026-07-12
+
+| Area | Status |
+|------|--------|
+| Manager + nodes stack (overall) | **~40%** |
+| Calendar (Operator Senses) | **GREEN** |
+| Faza 6 node registry | **0%** |
+| Sloppix | **ideas only — NO fork** (no public source/license) |
+
+## Agent duty (session start / major planning)
+
+1. **Recall this rule** — it is `alwaysApply`; do not lose sight of Core-vs-Node model.
+2. Optionally `memory_recall("claude_marcin_main", "main goal distance manager nodes", top_k=3)`.
+3. Optionally read `runtime/docs/AIONS_GOAL_DISTANCE_2026-07-12.md` (or latest dated file).
+4. When planning or reporting progress: state **how far from goal** when relevant (%, blockers, next milestone).
+
+`sessionStart` hook already injects auto-log (~20 entries); this rule carries the strategic north star — no separate hook needed.
+
+## Anti-goals (do NOT)
+
+- Do **not** build a custom distro / appliance **before** Core + Node Agent + node registry are real.
+- Do **not** copy or fork **Sloppix** without a proper OSS license and source (verdict: **NO** — ideas-only inspiration).
+- Do **not** treat MCP or a single LLM chat as the product — logic lives in `control_plane/`, nodes are workers.
+
+## Related
+
+- Architecture layers: `.cursor/rules/aions-architecture.mdc`
+- Roadmap: `.claude/specs/AIONS_OS_ROADMAP.md`
+- Operator Senses status: `runtime/docs/OPERATOR_SENSES_STATUS.md`
