@@ -1,0 +1,12 @@
+---
+description: Control plane — policy, planner, executor; not MCP monolith
+globs: "{control_plane/**,server/**,mcpServers/**}"
+alwaysApply: false
+---
+
+# AIONS Control Plane (Faza 3)
+
+- New decision logic → `control_plane/` (`policy.py`, `planner.py`, `executor.py`).
+- Extend `server/app.py` via routers; do not add 500-line blocks to `mcpServers/.../server.py`.
+- Max **3 new MCP tools** per control-plane iteration: `aions_plan`, `aions_execute_step`, `aions_execution_status`.
+- CBMS lookup before planning; audit trail JSONL for every execution step.
