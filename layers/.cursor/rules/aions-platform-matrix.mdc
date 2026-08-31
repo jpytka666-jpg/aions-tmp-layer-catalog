@@ -1,0 +1,15 @@
+---
+description: Platform matrix — every new deploy target must be documented
+globs: "runtime/host/**"
+alwaysApply: false
+---
+
+# Platform Matrix
+
+Before marking a platform "supported":
+
+1. Add row to `runtime/docs/PLATFORM_MATRIX.md`
+2. Provide runnable test script under `runtime/host/`
+3. Capture `result.json` with `strict_health: PASS` in `D:\AIONS_DEV\logs\`
+
+Current priority: Proxmox → VPS → Oracle ARM.
