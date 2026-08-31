@@ -1,0 +1,36 @@
+---
+description: AIONS MCP tool routing — when to use fast_search, wsl_run, network_ping, etc.
+alwaysApply: true
+---
+
+# AIONS MCP Tool Routing
+
+Use **`user-aions-context`** tools proactively. Call **`system_health()`** before `desktop_*` / long automation.
+
+| Need | Tool | Avoid |
+|------|------|-------|
+| Find file on disk (Windows) | **`fast_search`** / **`fast_search_ext`** (Everything) | `dir /s`, blind Glob from home |
+| Bash / SSH / SCP / tar | **`wsl_run`** or Shell | PowerShell for `.sh` scripts |
+| Host alive | **`network_ping`** | /24 subnet scans |
+| Session memory | **`memory_recall`** / **`memory_store`** | Guessing from chat |
+| CBMS / knowledge | **`cbms_search`**, **`cbms_get_chunk`** | — |
+| MCP alive? | **`system_health`** | Blind `desktop_click` loops |
+| Proxmox / VM work | SSH + `qm` CLI via **`wsl_run`** | vmconnect, new browser tabs |
+| Desktop GUI | **`desktop_*`** only when SSH impossible | Default path for deploy |
+| Cursor browser | `cursor-ide-browser` — poor on ExtJS | Proxmox panel automation |
+| Repo file content | Read / Grep in workspace | Everything for in-repo paths |
+| Git status | **`git_status`**, **`git_log`** | — |
+| Docker / WSL list | **`docker_ps`**, **`wsl_list`** | — |
+| Bootstrap session | **`session_bootstrap`** | — |
+
+## Search priority (Marcin / AIONS)
+
+1. **`fast_search`** with path prefix (`E:\server wiedzy\runtime`, `D:\AIONS_DEV\vm`)
+2. Grep / Glob only inside current git workspace or after Everything locates candidates
+3. Never commit secrets found during search
+
+## Deploy targets (Faza 2)
+
+- Hyper-V: `continue_milestone_c.ps1` (SCP/tar)
+- Proxmox: `continue_milestone_c_proxmox.ps1` → SSH + `run_milestone_c_proxmox.sh`
+- No CIFS for apt; `TMPDIR=/tmp` on guests
