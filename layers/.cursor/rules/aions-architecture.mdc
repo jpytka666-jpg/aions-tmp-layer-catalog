@@ -1,0 +1,13 @@
+---
+description: AIONS four-layer architecture — Linux, CBMS, MCP, LLM
+alwaysApply: true
+---
+
+# AIONS Architecture
+
+> Linux = hardware layer · CBMS = cognitive system · MCP = execution layer · LLM = replaceable interface
+
+- Do not grow MCP as the "brain" — decision logic belongs in `control_plane/` (Faza 3).
+- MCP exposes tools; CBMS holds deterministic knowledge; Chroma holds semantic memory.
+- "AIONS OS" means cognitive platform over Linux — not a custom kernel.
+- When unsure: read `AGENTS.md` and `.claude/specs/AIONS_OS_ROADMAP.md`.
