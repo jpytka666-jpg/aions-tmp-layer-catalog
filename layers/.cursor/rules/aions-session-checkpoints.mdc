@@ -1,0 +1,42 @@
+---
+description: AIONS session checkpoints — memory_store + conv_dump to Chroma (not Hyper-V VM checkpoints)
+alwaysApply: true
+---
+
+# AIONS Session Checkpoints (Chroma)
+
+> **Nie mylić z Hyper-V:** `AutomaticCheckpointsEnabled` na VM `aions-proxmox-host` i innych hostach Proxmox **musi zostać `$false`**. Ten dokument dotyczy checkpointów **sesji agenta** → Chroma via MCP.
+
+## Kiedy robić checkpoint
+
+- Po zakończeniu **fazy / kamienia milowego** lub przed długą przerwą
+- Co **~15 wywołań narzędzi** w długiej sesji (sprawdź `conv_status()`)
+- **Przed** `desktop_*` / `browser_*` / długą automatyzacją (po `system_health()`)
+- Przy **błędzie MCP**, przerwaniu (**timeout** / **wisisz**) lub zmianie kierunku zadania
+- **Na końcu każdej odpowiedzi** z istotnym postępem (razem z `UpdateCurrentStep` final_summary)
+- Na **stop** sesji — hook `stop` może wymusić jedną rundę follow-up (patrz `.cursor/hooks.json`)
+
+## Obowiązkowa sekwencja (MCP `user-aions-context`)
+
+1. `memory_store(session_id="claude_marcin_main", text="[CHECKPOINT] …")` — tag **`CHECKPOINT`** lub **`AUTO_CHECKPOINT`** w treści; 2–6 zdań: co zrobiono, stan, następny krok
+2. `conv_dump(summary="[CHECKPOINT] …")` — ten sam skrót w `summary`
+
+Kolejność: najpierw `memory_store`, potem `conv_dump`. Nie pomijaj przy długiej pracy.
+
+## Protokół sesji i limity
+
+- **START:** hook `sessionStart` wstrzykuje auto-log; nie wołaj `conv_history()` bez potrzeby. Fallback: `session_bootstrap()`.
+- **Limity:** MCP ≤30s, **1 retry**; desktop ≤3 min; patrz `scripts/aions_automation_limits.md` i `aions-runtime.mdc`.
+- **Prod Chroma:** tylko przez MCP — hooki **nie** zapisują do Chroma bezpośrednio.
+
+## Hyper-V (osobna polityka)
+
+- VM `aions-proxmox-host`: `Set-VM -AutomaticCheckpointsEnabled $false` — **nigdy nie włączać** auto-checkpointów Hyper-V.
+- SSOT: `runtime/host/proxmox/setup_hyperv_proxmox_host.ps1`. Ręczne snapshoty tylko na wyraźną prośbę Marcina.
+
+## Przykład
+
+```
+memory_store("claude_marcin_main", "[CHECKPOINT] Proxmox ISO OK; następny: SSH install.")
+conv_dump(summary="[CHECKPOINT] Proxmox ISO OK; następny: SSH install.")
+```
