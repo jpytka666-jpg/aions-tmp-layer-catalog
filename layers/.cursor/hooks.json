@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "command": ".cursor/hooks/run_autolog_bootstrap.cmd",
+        "timeout": 10
+      }
+    ],
+    "stop": [
+      {
+        "command": ".cursor/hooks/run_checkpoint_stop_gate.cmd",
+        "timeout": 10,
+        "loop_limit": 1
+      }
+    ]
+  }
+}
