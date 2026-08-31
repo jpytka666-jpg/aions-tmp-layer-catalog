@@ -1,0 +1,20 @@
+---
+description: AIONS runtime — Python 3.11, venv, prod vs dev MCP, MCP health gate, automation limits
+alwaysApply: true
+---
+
+# AIONS Runtime
+
+- Python **3.11 only** — use `scripts/aions_python.ps1` / `scripts/aions_python.sh`, never bare `python`.
+- Canonical edits on **E:**; sync to D: via `scripts/sync_dev_mirror.ps1`.
+- Prod MCP: `aions-context` on E: — do not break.
+- Dev MCP: `aions-dev` via WSL `D:\AIONS_DEV\start_aions_dev.bat mcp`.
+- Never commit secrets (`.env`, keys, credentials).
+
+## MCP health gate
+
+Before `desktop_*`, `browser_*`, or long automation: call **`system_health()`** on `user-aions-context`. It must return fast (default deadline ≤15s); `{"status":"error","error":"timeout"}` means MCP is unhealthy. On failure, timeout, or MCP error → **STOP**, tell user **Reload MCP in Cursor Settings**, `memory_store` to `claude_marcin_main` with `MCP_RELOAD` if needed. **Never** retry-loop `desktop_click` on MCP errors. After user reloads MCP → **`session_bootstrap()`** once, then `system_health()` again.
+
+## Automation limits
+
+SSOT: `scripts/aions_automation_limits.md`. Desktop session ≤3 min; `desktop_click` same coords ≤3 attempts / 30s; snapshot loop ≤5 / 120s; shell status 30s; subnet /24 forbidden unless asked; MCP tool 30s, retry once. Between retries: report state, no blind retry. User **timeout** / **wisisz** → STOP, report state, one smallest next step.
