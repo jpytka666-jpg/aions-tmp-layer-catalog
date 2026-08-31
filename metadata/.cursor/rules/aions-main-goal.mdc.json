@@ -1,0 +1,15 @@
+{
+  "rel_path": ".cursor/rules/aions-main-goal.mdc",
+  "source_mtime": "2026-08-29T03:07:12+01:00",
+  "source_created": "2026-07-12T14:04:28+01:00",
+  "size": 2658,
+  "sha256": "2eaea020ed996e29301c852ac5a0b64309dae37dbc1539e12219811784ce188b",
+  "ext": ".mdc",
+  "concept_id": "aions-core-vs-nodes-goal",
+  "session_author": "cursor-rules",
+  "duplicate_of": null,
+  "mutant_of": null,
+  "runnable": "n-a",
+  "run_result": "not executed (cursor rule, not a program)",
+  "notes": "alwaysApply Cursor rule. CreationTime 2026-07-12 is the evolution date; LastWrite 2026-08-29 03:07 is repo-wide touch with AGENTS.md. SSOT named inside: runtime/docs/AIONS_GOAL_DISTANCE_2026-07-12.md. Snapshot in-file: manager+nodes ~40%, Faza 6 registry 0%, Sloppix no-fork. Anti-goals: no custom distro first; MCP/chat is not the product."
+}
